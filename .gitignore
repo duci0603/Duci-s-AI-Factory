@@ -1,0 +1,29 @@
+.DS_Store
+*.log
+*.tmp
+*.temp
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+secrets/
+
+# Runtime caches
+node_modules/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# Codex/OpenClaw local state
+.codex/
+.openclaw/
+work/
+outputs/
+
