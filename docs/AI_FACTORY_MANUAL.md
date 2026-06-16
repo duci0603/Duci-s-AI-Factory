@@ -414,6 +414,15 @@ YYYY-MM-DD_简短英文任务名
 - `openclaw`
 - `monitor`
 
+P2 只读体检结论：
+
+- 当前 4 个旧 session 均只有 1 个窗口。
+- 窗口名均为默认 `zsh`。
+- pane 当前命令均为 `zsh`。
+- 当前路径均为 `/Users/duckulacissy`。
+- 未发现正在运行的长期服务或命令。
+- 暂不删除旧 session，先建立标准 `ai-factory` 布局并观察。
+
 推荐长期窗口：
 
 | 窗口 | 用途 | 建议命名 |
@@ -433,6 +442,12 @@ tmux new -s ai-factory
 tmux new -As ai-factory
 tmux attach -t ai-factory
 tmux kill-session -t ai-factory
+```
+
+详细 SOP 见：
+
+```text
+docs/TMUX_SOP.md
 ```
 
 ## 第十五章：权限与安全边界
