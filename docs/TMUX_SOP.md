@@ -14,12 +14,12 @@ ai-factory
 
 | Window | Name | Purpose |
 |---|---|---|
-| 0 | control | Project control, Git status, temporary commands. |
-| 1 | codex | Codex CLI execution window. |
-| 2 | gateway | OpenClaw gateway or message bridge. |
-| 3 | logs | OpenClaw, Codex, and system log watching. |
-| 4 | dev | npm, Python, skill, and temporary development tasks. |
-| 5 | monitor | htop, disk, network, and service status checks. |
+| 0 | control | Project control, Git status, temporary commands, and phase checks. |
+| 1 | codex | Codex CLI execution for engineering work, file edits, and command runs. |
+| 2 | gateway | OpenClaw gateway or message bridge for future external task intake. |
+| 3 | logs | OpenClaw, Codex, and system service log watching. |
+| 4 | dev | npm, Python, skill, script testing, and temporary development tasks. |
+| 5 | monitor | htop, disk, network, service status, and health checks. |
 
 ## Daily Commands
 
@@ -55,14 +55,10 @@ tmux new-window -n codex
 
 ## Current Migration Status
 
-Existing sessions found during P2 read-only check:
+Final active session:
 
 ```text
 ai-factory
-factory
-codex
-openclaw
-monitor
 ```
 
 `ai-factory` has been created as the standard session with six windows:
@@ -82,7 +78,7 @@ All `ai-factory` windows currently start in:
 /Users/duckulacissy/Duci-s-AI-Factory
 ```
 
-Old sessions still exist as rollback:
+Old sessions removed after user confirmation:
 
 ```text
 factory
@@ -91,15 +87,7 @@ openclaw
 monitor
 ```
 
-Each old session currently has one `zsh` window and no active long-running command.
-
-Do not kill old sessions until the user confirms consolidation.
-
-## Proposed Consolidation
-
-1. Use `ai-factory` as the default working session.
-2. Keep old sessions temporarily as rollback.
-3. After confirming the new layout works, close old empty sessions.
+Use `ai-factory` as the default working session.
 
 ## Safety Rules
 

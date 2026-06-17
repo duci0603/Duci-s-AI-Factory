@@ -407,12 +407,9 @@ YYYY-MM-DD_简短英文任务名
 
 ## 第十四章：tmux 标准化
 
-当前已存在会话：
+当前标准会话：
 
-- `factory`
-- `codex`
-- `openclaw`
-- `monitor`
+- `ai-factory`
 
 P2 只读体检结论：
 
@@ -421,25 +418,25 @@ P2 只读体检结论：
 - pane 当前命令均为 `zsh`。
 - 当前路径均为 `/Users/duckulacissy`。
 - 未发现正在运行的长期服务或命令。
-- 暂不删除旧 session，先建立标准 `ai-factory` 布局并观察。
+- 旧 session 已在确认后清理。
 
-P2 标准布局已创建：
+P2 标准布局已完成：
 
 - `ai-factory` session 已存在。
 - 标准窗口已创建：`control`、`codex`、`gateway`、`logs`、`dev`、`monitor`。
 - 所有标准窗口当前路径均为 `/Users/duckulacissy/Duci-s-AI-Factory`。
-- 旧 session `factory`、`codex`、`openclaw`、`monitor` 暂时保留作为回滚。
+- 旧 session `factory`、`codex`、`openclaw`、`monitor` 已清理。
 
-推荐长期窗口：
+长期窗口分工：
 
-| 窗口 | 用途 | 建议命名 |
+| 窗口 | 命名 | 分工 |
 |---|---|---|
-| 0 | 项目总控、Git 状态、临时命令 | control |
-| 1 | Codex 执行窗口 | codex |
-| 2 | OpenClaw gateway 运行窗口 | gateway |
-| 3 | OpenClaw/Codex/系统日志观察 | logs |
-| 4 | npm、python、skill、临时开发任务 | dev |
-| 5 | htop、磁盘、网络、服务状态观察 | monitor |
+| 0 | control | 项目总控、Git 状态、临时命令、阶段检查。 |
+| 1 | codex | Codex CLI 执行窗口，负责工程任务、文件修改、命令运行。 |
+| 2 | gateway | OpenClaw gateway 或消息桥接窗口，未来用于接收外部任务。 |
+| 3 | logs | OpenClaw、Codex、系统服务日志观察窗口。 |
+| 4 | dev | npm、python、skill、脚本测试和临时开发任务。 |
+| 5 | monitor | htop、磁盘、网络、服务状态和健康检查。 |
 
 常用命令：
 
