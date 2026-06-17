@@ -99,7 +99,9 @@ OpenClaw → Codex → Tool Chain
 - `git config --global user.name/user.email` 未设置
 - 当前命令行未发现 `tailscale` CLI
 - 当前命令行未发现 `openclaw` CLI，`~/.openclaw` 不存在
-- 仓库正在进行 P1 标准化
+- P1 GitHub 标准化已完成
+- P2 tmux 标准化已完成
+- 仓库正在进行 P3 AI 执行规范固化
 
 ## 第七章：部署阶段与验收关卡
 
@@ -179,7 +181,7 @@ codex exec --cd ~/dev/github/Duci-s-AI-Factory "请检查项目状态，补齐 A
 
 ## 第十二章：仓库标准化
 
-当前目标：P1 GitHub 标准化。
+当前目标：P3 AI 执行规范固化。
 
 标准目录：
 
@@ -191,6 +193,8 @@ Duci-s-AI-Factory/
 ├── agents/
 ├── docs/
 │   └── AI_FACTORY_MANUAL.md
+│   └── AI_EXECUTION_SOP.md
+│   └── TMUX_SOP.md
 ├── logs/
 ├── prompts/
 ├── scripts/
@@ -473,7 +477,64 @@ docs/TMUX_SOP.md
 
 以上入口统一走 Tailscale 私有网络。
 
-## 第十六章：故障排查库初版
+## 第十六章：AI 执行规范固化
+
+P3 目标是让 Codex 和 OpenClaw 的执行边界可重复、可审批、可记录。
+
+详细 SOP 见：
+
+```text
+docs/AI_EXECUTION_SOP.md
+```
+
+### 固定启动检查
+
+每次工程任务开始前必须：
+
+1. 读取 `README.md`。
+2. 读取 `AGENTS.md`。
+3. 读取 `docs/AI_FACTORY_MANUAL.md`。
+4. 读取最近的 `logs/YYYY-MM-DD.md`。
+5. 执行 `git status --short`。
+6. 判断是否存在用户未提交修改。
+7. 确认当前阶段、任务、风险和下一步。
+
+### 审批等级
+
+| 等级 | 含义 | 示例 |
+|---|---|---|
+| L0 | 只读检查，无需额外确认。 | 查看文件、Git 状态、tmux 状态、工具版本。 |
+| L1 | 低风险项目编辑，用户确认方向后可执行。 | 更新文档、日志、SOP、非密钥项目文件、提交并推送。 |
+| L2 | 必须明确确认。 | 删除文件、kill session、安装依赖、改 SSH/Tailscale/VNC、防火墙、处理密钥、启动长期服务。 |
+| L3 | 除非用户明确指定，否则禁止。 | `git reset --hard`、force push、暴露公网端口、提交密钥、替换核心架构。 |
+
+### OpenClaw → Codex 任务包
+
+OpenClaw 转交工程任务时应传递：
+
+```text
+task_id: YYYY-MM-DD_short-task-name
+repo: /Users/duckulacissy/Duci-s-AI-Factory
+phase: P3
+request: 用户请求
+risk_level: L0 | L1 | L2 | L3
+approval_status: approved | needs_confirmation
+expected_output: summary, changed_files, verification, next_step
+```
+
+### Codex 回传格式
+
+Codex 应回传：
+
+```text
+status: completed | blocked | needs_confirmation
+changed_files:
+verification:
+risks:
+next_step:
+```
+
+## 第十七章：故障排查库初版
 
 | 问题 | 检查顺序 | 处理建议 |
 |---|---|---|
@@ -483,7 +544,7 @@ docs/TMUX_SOP.md
 | OpenClaw gateway 挂了 | `openclaw gateway status --deep`；`openclaw doctor`；`openclaw logs --follow --local-time`。 | 保留日志，确认配置文件和端口；必要时 restart。 |
 | Git 状态混乱 | `git status`；`git diff`；确认是否有用户未提交修改。 | 禁止直接 reset；必要时新建备份分支或先提交 WIP。 |
 
-## 第十七章：常用命令速查表
+## 第十八章：常用命令速查表
 
 | 类别 | 命令 | 用途 |
 |---|---|---|
@@ -498,7 +559,7 @@ docs/TMUX_SOP.md
 | Git | `git diff` | 提交前查看实际改动。 |
 | Tailscale | `tailscale status` | 确认私有网络连通。 |
 
-## 第十八章：项目日志制度
+## 第十九章：项目日志制度
 
 记录内容：
 

@@ -8,7 +8,7 @@ Core principle: humans make decisions; AI executes.
 
 ## Current Phase
 
-P1: GitHub standardization.
+P3: AI execution rules.
 
 The next planned phases are:
 
@@ -32,6 +32,33 @@ The next planned phases are:
 - Do not commit API keys, SSH keys, tokens, passwords, `.env` files, or private credentials.
 - Any deployment, permission change, secret handling, network exposure, or destructive command requires user confirmation.
 
+## Approval Rules
+
+Allowed without extra approval:
+
+- Read repository files.
+- Run read-only inspection commands.
+- Edit project documentation, logs, prompts, scripts, and non-secret project files within the agreed task scope.
+- Commit and push changes after the user has approved the work direction.
+
+Requires explicit user confirmation:
+
+- Delete files or directories.
+- Kill processes or tmux sessions.
+- Reset, rebase, force-push, or rewrite Git history.
+- Install or upgrade dependencies, CLIs, services, launch agents, or background daemons.
+- Change SSH, Tailscale, VNC, firewall, reverse proxy, public URL, or port exposure.
+- Handle secrets, API keys, tokens, passwords, private keys, or `.env` files.
+- Start paid API usage, auto-sending messages, scheduled jobs, or long-running services.
+- Change the core architecture or replace Codex/OpenClaw/GitHub/NAS roles.
+
+Never do:
+
+- Commit secrets or private credentials.
+- Expose SSH, VNC, OpenClaw gateway, or local dev ports to the public internet.
+- Revert or overwrite user changes without explicit instruction.
+- Claim a task is complete without verification or a stated limitation.
+
 ## OpenClaw And Codex Roles
 
 OpenClaw/Longxia receives work. Codex does the engineering work. GitHub records results. Mac mini stays online.
@@ -45,10 +72,25 @@ Codex is the engineering execution layer. It should read project context, edit f
 1. Read `README.md`, `docs/AI_FACTORY_MANUAL.md`, and recent files under `logs/`.
 2. Run `git status --short`.
 3. Identify user-owned changes and avoid overwriting them.
-4. Make the smallest useful change.
-5. Run relevant verification.
-6. Update logs when the task changes project state.
-7. Report changed files, verification, risks, and next step.
+4. Confirm risk level and approval needs.
+5. Make the smallest useful change.
+6. Run relevant verification.
+7. Update logs when the task changes project state.
+8. Commit and push when appropriate.
+9. Report changed files, verification, risks, and next step.
+
+## Standard Report Format
+
+Use this structure for milestone or deployment work:
+
+```text
+【当前阶段】
+【已完成】
+【进行中】
+【本次执行】
+【风险/需确认】
+【下一步】
+```
 
 ## Repository Standards
 

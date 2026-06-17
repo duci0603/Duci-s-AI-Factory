@@ -1,0 +1,201 @@
+# AI Execution SOP
+
+## Purpose
+
+This SOP defines how Codex and OpenClaw should execute work inside the personal AI factory.
+
+Core principle:
+
+```text
+Human decides. AI executes. GitHub records. Mac mini stays online.
+```
+
+## Roles
+
+| Role | Responsibility | Boundary |
+|---|---|---|
+| Human | Decides goals, approves risk, confirms direction. | Does not need to remember every detail. |
+| OpenClaw | Receives messages, classifies tasks, triggers scripts or Codex, returns summaries. | Not the main engineering agent. |
+| Codex | Reads project context, edits files, runs commands, verifies results, updates logs, prepares commits. | Must follow approval and safety rules. |
+| GitHub | Stores code, docs, logs, commits, and recoverable history. | Must not store secrets. |
+| Mac mini | Always-on execution host. | Should run long tasks inside tmux. |
+| NAS | Long-term memory, knowledge, backups, and large files. | Does not replace Git history. |
+
+## Required Start Checklist
+
+Before every engineering task:
+
+1. Read `README.md`.
+2. Read `AGENTS.md`.
+3. Read `docs/AI_FACTORY_MANUAL.md`.
+4. Read the latest relevant file under `logs/`.
+5. Run `git status --short`.
+6. Identify user-owned or uncommitted changes.
+7. Confirm current phase, task, risk, and next step.
+
+## Approval Levels
+
+### Level 0: Read-Only
+
+Allowed without extra approval:
+
+- Inspect files.
+- Inspect Git status and diffs.
+- Inspect tmux sessions.
+- Inspect installed tool versions.
+- Read logs and documentation.
+
+Examples:
+
+```bash
+git status --short
+tmux ls
+codex --version
+```
+
+### Level 1: Low-Risk Project Edits
+
+Allowed after the user has approved the task direction:
+
+- Edit docs, logs, prompts, scripts, and non-secret project files.
+- Create project SOP files.
+- Commit and push agreed project changes.
+- Create non-destructive tmux windows or sessions.
+
+Examples:
+
+```text
+Update docs/TMUX_SOP.md
+Add logs/YYYY-MM-DD.md
+Commit and push a documentation update
+```
+
+### Level 2: Requires Explicit Confirmation
+
+Ask before doing:
+
+- Delete files or directories.
+- Kill tmux sessions or processes.
+- Install or upgrade dependencies, CLIs, daemons, or launch agents.
+- Start, stop, or restart long-running services.
+- Change SSH, Tailscale, VNC, firewall, reverse proxy, public URL, or port exposure.
+- Change Git remotes, branch strategy, or repository visibility.
+- Handle secrets, tokens, API keys, private keys, passwords, or `.env` files.
+- Start paid API usage, auto-sending messages, scheduled jobs, or background automations.
+
+### Level 3: Prohibited Unless Specifically Directed
+
+Do not do unless the user explicitly requests the exact action:
+
+- `git reset --hard`
+- Force push.
+- Rewrite shared Git history.
+- Expose SSH, VNC, OpenClaw gateway, or local dev ports to the public internet.
+- Commit secrets.
+- Replace the agreed architecture or main agent/tool roles.
+- Remove backups or logs.
+
+## Standard Execution Flow
+
+1. Confirm phase and task.
+2. Inspect current state.
+3. Decide approval level.
+4. If needed, ask for explicit confirmation.
+5. Make the smallest useful change.
+6. Verify the result.
+7. Update logs and documentation.
+8. Commit with a short English imperative message.
+9. Push to GitHub when appropriate.
+10. Report result, changed files, verification, risk, and next step.
+
+## Codex Report Format
+
+Use this format for deployment, infrastructure, and milestone work:
+
+```text
+【当前阶段】
+【已完成】
+【进行中】
+【本次执行】
+【风险/需确认】
+【下一步】
+```
+
+## OpenClaw To Codex Task Packet
+
+When OpenClaw forwards a task to Codex, use this shape:
+
+```text
+task_id: YYYY-MM-DD_short-task-name
+repo: /Users/duckulacissy/Duci-s-AI-Factory
+phase: P3
+request: <user request>
+risk_level: L0 | L1 | L2 | L3
+approval_status: approved | needs_confirmation
+expected_output: summary, changed_files, verification, next_step
+```
+
+## Codex Return Summary
+
+Codex should return:
+
+```text
+status: completed | blocked | needs_confirmation
+changed_files:
+verification:
+risks:
+next_step:
+```
+
+## Logging Rules
+
+- Every milestone updates `logs/YYYY-MM-DD.md`.
+- Every architecture or rule change updates `docs/AI_FACTORY_MANUAL.md`.
+- Every operational SOP change updates the corresponding `docs/*_SOP.md`.
+- Logs should record completed work, issues, verification, and next steps.
+
+## Git Rules
+
+- Run `git status --short` before edits.
+- Review `git diff` before commit.
+- Do not include secrets.
+- Use short English imperative commit messages.
+- Push only after relevant verification.
+
+Examples:
+
+```text
+Add AI execution SOP
+Update OpenClaw task packet format
+Document approval rules
+```
+
+## tmux Rules
+
+- Use `ai-factory` as the only default session.
+- Use fixed windows:
+  - `control`
+  - `codex`
+  - `gateway`
+  - `logs`
+  - `dev`
+  - `monitor`
+- Run long tasks inside the appropriate named window.
+- Do not leave long-running services in unnamed shells.
+
+## Secret Handling
+
+- Never print private keys, tokens, passwords, or `.env` contents into logs.
+- Public SSH keys may be displayed when needed.
+- Private SSH keys must not be read or copied into the project.
+- If a secret is encountered, stop and ask the user how to proceed.
+
+## Completion Standard
+
+A task is complete only when:
+
+- The requested work is done.
+- Verification has run or the limitation is stated.
+- Logs/docs are updated when project state changed.
+- Git status is clean when a commit/push was expected.
+- The next step is clear.

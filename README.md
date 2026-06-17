@@ -24,16 +24,14 @@ Core principle: humans make decisions; AI executes.
 
 ## Current Phase
 
-P1: GitHub standardization.
+P3: AI execution rules.
 
-Current local standardization tasks:
+Completed foundation:
 
-- Add `AGENTS.md`
-- Add `.gitignore`
-- Add `logs/`
-- Add `tools/`
-- Sync `docs/AI_FACTORY_MANUAL.md` to V3.4
-- Fix GitHub SSH authentication before pushing
+- P1 GitHub standardization
+- P2 tmux standardization
+- Default GitHub SSH authentication
+- Standard `ai-factory` tmux session
 
 ## Core Roles
 
@@ -54,6 +52,8 @@ Duci-s-AI-Factory/
 ├── agents/
 ├── docs/
 │   └── AI_FACTORY_MANUAL.md
+│   └── AI_EXECUTION_SOP.md
+│   └── TMUX_SOP.md
 ├── logs/
 ├── prompts/
 ├── scripts/
@@ -68,3 +68,4 @@ Duci-s-AI-Factory/
 - Use Tailscale for private network access.
 - Run long tasks inside tmux.
 - Update logs and documentation at milestones.
+- Follow `AGENTS.md` and `docs/AI_EXECUTION_SOP.md` for AI execution rules.
