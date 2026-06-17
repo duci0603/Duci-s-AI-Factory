@@ -58,22 +58,48 @@ tmux new-window -n codex
 Existing sessions found during P2 read-only check:
 
 ```text
+ai-factory
 factory
 codex
 openclaw
 monitor
 ```
 
-Each session currently has one `zsh` window and no active long-running command.
+`ai-factory` has been created as the standard session with six windows:
+
+```text
+0 control
+1 codex
+2 gateway
+3 logs
+4 dev
+5 monitor
+```
+
+All `ai-factory` windows currently start in:
+
+```text
+/Users/duckulacissy/Duci-s-AI-Factory
+```
+
+Old sessions still exist as rollback:
+
+```text
+factory
+codex
+openclaw
+monitor
+```
+
+Each old session currently has one `zsh` window and no active long-running command.
 
 Do not kill old sessions until the user confirms consolidation.
 
 ## Proposed Consolidation
 
-1. Create `ai-factory`.
-2. Create standard windows: `control`, `codex`, `gateway`, `logs`, `dev`, `monitor`.
-3. Keep old sessions temporarily as rollback.
-4. After confirming the new layout works, close old empty sessions.
+1. Use `ai-factory` as the default working session.
+2. Keep old sessions temporarily as rollback.
+3. After confirming the new layout works, close old empty sessions.
 
 ## Safety Rules
 

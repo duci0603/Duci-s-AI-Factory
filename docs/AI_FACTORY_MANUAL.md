@@ -423,6 +423,13 @@ P2 只读体检结论：
 - 未发现正在运行的长期服务或命令。
 - 暂不删除旧 session，先建立标准 `ai-factory` 布局并观察。
 
+P2 标准布局已创建：
+
+- `ai-factory` session 已存在。
+- 标准窗口已创建：`control`、`codex`、`gateway`、`logs`、`dev`、`monitor`。
+- 所有标准窗口当前路径均为 `/Users/duckulacissy/Duci-s-AI-Factory`。
+- 旧 session `factory`、`codex`、`openclaw`、`monitor` 暂时保留作为回滚。
+
 推荐长期窗口：
 
 | 窗口 | 用途 | 建议命名 |
