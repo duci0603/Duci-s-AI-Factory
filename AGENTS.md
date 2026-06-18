@@ -8,7 +8,7 @@ Core principle: humans make decisions; AI executes.
 
 ## Current Phase
 
-P3: AI execution rules.
+P4: separate company channel and prepare personal gateway.
 
 The next planned phases are:
 
@@ -67,9 +67,17 @@ OpenClaw/Longxia is a gateway and memory carrier, not the main engineering agent
 
 Codex is the engineering execution layer. It should read project context, edit files, run commands, inspect results, update logs, and prepare Git commits.
 
+## Company Channel Separation
+
+The company-side `cc-connect` / Feishu runtime is isolated outside this repository and must not be used as the default personal AI factory gateway.
+
+Codex belongs to the personal AI factory through Codex App, Codex CLI, tmux `ai-factory`, and GitHub.
+
+Read `docs/CODEX_PERSONAL_ENTRY.md` before changing personal gateway or message-channel behavior.
+
 ## Recommended Workflow
 
-1. Read `README.md`, `docs/AI_FACTORY_MANUAL.md`, and recent files under `logs/`.
+1. Read `README.md`, `docs/AI_FACTORY_MANUAL.md`, `docs/AI_EXECUTION_SOP.md`, `docs/CODEX_PERSONAL_ENTRY.md`, and recent files under `logs/`.
 2. Run `git status --short`.
 3. Identify user-owned changes and avoid overwriting them.
 4. Confirm risk level and approval needs.
