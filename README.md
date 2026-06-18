@@ -13,9 +13,7 @@ Tailscale / SSH
 ↓
 Mac mini
 ↓
-Codex
-↓
-OpenClaw gateway / tools
+Codex App / Codex CLI / tmux
 ↓
 GitHub + NAS
 ```
@@ -24,7 +22,7 @@ Core principle: humans make decisions; AI executes.
 
 ## Current Phase
 
-P4: separate company channel and prepare personal gateway.
+P4: retire company channel and continue with Codex-only personal AI factory.
 
 Completed foundation:
 
@@ -33,14 +31,13 @@ Completed foundation:
 - P3 AI execution rules
 - Default GitHub SSH authentication
 - Standard `ai-factory` tmux session
-- Company-side `cc-connect` runtime isolated outside the personal flow
+- Company-side `cc-connect` / Feishu runtime retired and removed from the personal flow
 
 ## Core Roles
 
 - MacBook Air: cockpit and remote control surface
 - Mac mini: always-on AI factory host
 - Codex: engineering execution layer
-- OpenClaw/Longxia: message gateway, scheduler, old memory carrier, task forwarder
 - GitHub: versioned project record
 - NAS: long-term knowledge and backup store
 
@@ -48,7 +45,7 @@ Completed foundation:
 
 Codex belongs to the personal AI factory through Codex App, Codex CLI, tmux, and GitHub.
 
-The company-side `cc-connect` / Feishu channel has been isolated and is not the default personal gateway.
+The company-side `cc-connect` / Feishu channel has been retired from the personal AI factory. Its old runtime, sessions, logs, and sync script were deleted after user confirmation, and it must not be used as a personal entry point.
 
 See `docs/CODEX_PERSONAL_ENTRY.md`.
 
@@ -75,7 +72,7 @@ Duci-s-AI-Factory/
 ## Rules
 
 - Do not store secrets in Git.
-- Do not expose SSH, VNC, OpenClaw gateway, or local dev ports to the public internet.
+- Do not expose SSH, VNC, retired company channels, future message gateways, or local dev ports to the public internet.
 - Use Tailscale for private network access.
 - Run long tasks inside tmux.
 - Update logs and documentation at milestones.

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document defines how Codex belongs to the personal AI factory after separating the company messaging channel.
+This document defines how Codex belongs to the personal AI factory after retiring the company messaging channel.
 
 Codex is the engineering execution layer for the personal AI factory. It does not depend on the company `cc-connect` / Feishu channel.
 
@@ -12,20 +12,20 @@ Codex is the engineering execution layer for the personal AI factory. It does no
 |---|---|---|
 | Codex App | Interactive engineering work, document work, browser or desktop verification. | Current primary personal entry. |
 | Codex CLI | SSH, terminal tasks, scripts, and future automation. | Use inside the project repository and tmux. |
-| tmux `ai-factory` | Durable terminal workspace. | Use fixed windows: `control`, `codex`, `gateway`, `logs`, `dev`, `monitor`. |
+| tmux `ai-factory` | Durable terminal workspace. | Use fixed windows: `control`, `codex`, `gateway`, `logs`, `dev`, `monitor`; `gateway` is reserved and inactive. |
 | GitHub | Project state, docs, logs, commits, and recovery history. | Do not store secrets. |
 
-## Company Channel Separation
+## Company Channel Retirement
 
-The company-side `cc-connect` runtime has been isolated outside the personal AI factory flow.
+The company-side `cc-connect` runtime has been retired from the personal AI factory flow.
 
-Isolated location:
+Local retirement note:
 
 ```text
 /Users/duckulacissy/Documents/Codex/2026-06-15/files-mentioned-by-the-user-ai/公司使用通道/
 ```
 
-The isolated company channel may contain Feishu configuration, logs, sessions, or credentials. Do not copy it into this repository.
+The former runtime, sessions, logs, LaunchAgent, and old sync script were permanently deleted after user confirmation on 2026-06-18. The remaining local folder is only a non-secret note that the company channel was retired.
 
 ## Personal AI Factory Rule
 
@@ -45,11 +45,11 @@ GitHub
 NAS later
 ```
 
-Do not use the company `cc-connect` / Feishu channel as the default personal AI factory gateway.
+Do not use the company `cc-connect` / Feishu channel as a personal AI factory gateway.
 
 ## Future Personal Gateway
 
-If a message gateway is needed later, create a new personal gateway configuration rather than reusing the company channel.
+There is no active personal gateway in the current official workflow. If a message gateway is needed later, create a new personal gateway configuration rather than reusing the company channel.
 
 Future gateway requirements:
 

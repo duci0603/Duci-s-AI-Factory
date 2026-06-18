@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This SOP defines how Codex and OpenClaw should execute work inside the personal AI factory.
+This SOP defines how Codex should execute work inside the personal AI factory.
 
 Core principle:
 
@@ -15,8 +15,7 @@ Human decides. AI executes. GitHub records. Mac mini stays online.
 | Role | Responsibility | Boundary |
 |---|---|---|
 | Human | Decides goals, approves risk, confirms direction. | Does not need to remember every detail. |
-| OpenClaw | Receives messages, classifies tasks, triggers scripts or Codex, returns summaries. | Not the main engineering agent. |
-| Codex | Reads project context, edits files, runs commands, verifies results, updates logs, prepares commits. | Must follow approval and safety rules. |
+| Codex App / CLI | Receives user requests, reads project context, edits files, runs commands, verifies results, updates logs, prepares commits. | Must follow approval and safety rules. |
 | GitHub | Stores code, docs, logs, commits, and recoverable history. | Must not store secrets. |
 | Mac mini | Always-on execution host. | Should run long tasks inside tmux. |
 | NAS | Long-term memory, knowledge, backups, and large files. | Does not replace Git history. |
@@ -90,7 +89,7 @@ Do not do unless the user explicitly requests the exact action:
 - `git reset --hard`
 - Force push.
 - Rewrite shared Git history.
-- Expose SSH, VNC, OpenClaw gateway, or local dev ports to the public internet.
+- Expose SSH, VNC, retired company channels, future message gateways, or local dev ports to the public internet.
 - Commit secrets.
 - Replace the agreed architecture or main agent/tool roles.
 - Remove backups or logs.
@@ -121,14 +120,14 @@ Use this format for deployment, infrastructure, and milestone work:
 【下一步】
 ```
 
-## OpenClaw To Codex Task Packet
+## Codex Task Packet
 
-When OpenClaw forwards a task to Codex, use this shape:
+When a task is handed to Codex through the App, CLI, or a future approved personal gateway, use this shape:
 
 ```text
 task_id: YYYY-MM-DD_short-task-name
 repo: /Users/duckulacissy/Duci-s-AI-Factory
-phase: P3
+phase: P4
 request: <user request>
 risk_level: L0 | L1 | L2 | L3
 approval_status: approved | needs_confirmation
@@ -166,7 +165,7 @@ Examples:
 
 ```text
 Add AI execution SOP
-Update OpenClaw task packet format
+Update Codex task packet format
 Document approval rules
 ```
 
@@ -180,6 +179,7 @@ Document approval rules
   - `logs`
   - `dev`
   - `monitor`
+- Treat `gateway` as a reserved inactive window unless a future personal gateway is explicitly approved.
 - Run long tasks inside the appropriate named window.
 - Do not leave long-running services in unnamed shells.
 
