@@ -155,7 +155,8 @@ Tool Chain
 
 - P4 OpenClaw 试部署准备
 - P4 只读可用性检查已完成：当前 shell 未发现 `openclaw` 或 `longxia` 命令
-- 继续确认 OpenClaw CLI / gateway 的个人版安装方式
+- 官方资料核对已完成：OpenClaw 是自托管 gateway；推荐安装入口为 `npm install -g openclaw@latest`，官方 onboarding 会配置模型、workspace、Gateway、channels、daemon 和 health check
+- 继续确认 OpenClaw CLI / gateway 的个人版安装方式；安装、onboarding、daemon 均属于 L2，必须再次确认
 - 确认 gateway 接收消息后如何安全转交 Codex
 - 补齐 NAS 长期记忆库路径与资料分类
 ### 后续路线
@@ -191,6 +192,31 @@ NAS 长期记忆库
 | P5 | OpenClaw 正式部署 | 接入消息入口，能将工程任务转交 Codex，并回传摘要。 |
 | P6 | NAS 知识库接入 | 资料分类、路径规范、备份策略和检索方式明确。 |
 | P7 | 日常运维 SOP | 形成启动、停止、升级、故障排查、日志归档和恢复流程。 |
+
+### P4 官方资料核对
+
+官方资料来源：
+
+- OpenClaw 官方站：https://openclaw.ai/
+- OpenClaw 官方文档：https://docs.openclaw.ai/
+- OpenClaw GitHub：https://github.com/openclaw/openclaw
+
+核对结论：
+
+- OpenClaw 定位是自托管 Gateway，连接消息入口、agent、CLI、Web Control UI 和移动节点。
+- 官方要求 Node 24 推荐，Node 22.19+ 兼容；本机 Node.js 为 v26.3.0，满足版本方向，但正式安装前仍需注意包兼容性。
+- 官方快速路径包括 `npm install -g openclaw@latest` 和 `openclaw onboard --install-daemon`。
+- `openclaw onboard` 会涉及模型/API 授权、workspace、Gateway 端口与绑定、认证、channels、daemon、health check 和 skills。
+- 官方默认 Gateway 端口为 18789；远程访问建议使用 Tailscale、trusted LAN/tailnet 或 SSH tunnel，不应公网暴露。
+- 官方安全文档强调 one trusted operator boundary per gateway；个人 AI 工厂应坚持一个个人 gateway、一个个人配置边界，不复用公司通道。
+
+保守执行策略：
+
+1. 不使用 `curl | bash` 作为首选安装方式；优先使用更可控的 `npm install -g openclaw@latest`。
+2. 安装 CLI 之前必须获得明确确认，因为它会写入全局 npm 路径。
+3. 安装后先执行 `openclaw --version`、`openclaw --help`、`openclaw onboard --help`，不立即启动 gateway。
+4. onboarding 前确认模型/API 授权方式、个人配置目录、Gateway 绑定方式、token 认证和是否安装 daemon。
+5. P4 第一版只允许 loopback/Tailscale/SSH tunnel，不允许公网暴露，不允许自动发送消息，不允许接入公司 Feishu/cc-connect。
 
 ## 第八章：OpenClaw 与 Codex 的角色分工
 
