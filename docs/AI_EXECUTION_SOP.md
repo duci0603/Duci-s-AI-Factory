@@ -2,12 +2,12 @@
 
 ## Purpose
 
-This SOP defines how Codex should execute work inside the personal AI factory.
+This SOP defines how AI work should be executed inside the personal AI factory.
 
 Core principle:
 
 ```text
-Human decides. AI executes. GitHub records. Mac mini stays online.
+Human decides. OpenClaw receives. Codex executes. GitHub records. Mac mini stays online.
 ```
 
 ## Roles
@@ -15,10 +15,29 @@ Human decides. AI executes. GitHub records. Mac mini stays online.
 | Role | Responsibility | Boundary |
 |---|---|---|
 | Human | Decides goals, approves risk, confirms direction. | Does not need to remember every detail. |
-| Codex App / CLI | Receives user requests, reads project context, edits files, runs commands, verifies results, updates logs, prepares commits. | Must follow approval and safety rules. |
+| OpenClaw / Longxia | Future personal gateway for message intake, task classification, memory, scheduling, and handoff to Codex. | Not the main engineering agent; must not reuse company `cc-connect` / Feishu. |
+| Codex App / CLI | Reads project context, edits files, runs commands, verifies results, updates logs, prepares commits. | Must follow approval and safety rules. |
 | GitHub | Stores code, docs, logs, commits, and recoverable history. | Must not store secrets. |
 | Mac mini | Always-on execution host. | Should run long tasks inside tmux. |
 | NAS | Long-term memory, knowledge, backups, and large files. | Does not replace Git history. |
+
+## Architecture Boundary
+
+The host route is:
+
+```text
+MacBook Air -> Tailscale/SSH -> Mac mini -> GitHub -> NAS
+```
+
+The AI workflow route is:
+
+```text
+Personal message entry -> OpenClaw / Longxia -> Codex -> Tool Chain -> GitHub / NAS
+```
+
+OpenClaw / Longxia is a future personal gateway layer, not a separate host between Mac mini and GitHub.
+
+The retired company-side `cc-connect` / Feishu runtime is not part of this workflow and must not be restored or reused.
 
 ## Required Start Checklist
 
@@ -89,7 +108,7 @@ Do not do unless the user explicitly requests the exact action:
 - `git reset --hard`
 - Force push.
 - Rewrite shared Git history.
-- Expose SSH, VNC, retired company channels, future message gateways, or local dev ports to the public internet.
+- Expose SSH, VNC, OpenClaw gateway, retired company channels, or local dev ports to the public internet.
 - Commit secrets.
 - Replace the agreed architecture or main agent/tool roles.
 - Remove backups or logs.
@@ -120,9 +139,9 @@ Use this format for deployment, infrastructure, and milestone work:
 【下一步】
 ```
 
-## Codex Task Packet
+## OpenClaw To Codex Task Packet
 
-When a task is handed to Codex through the App, CLI, or a future approved personal gateway, use this shape:
+When a task is handed to Codex through a future approved personal OpenClaw / Longxia gateway, use this shape:
 
 ```text
 task_id: YYYY-MM-DD_short-task-name
@@ -133,6 +152,8 @@ risk_level: L0 | L1 | L2 | L3
 approval_status: approved | needs_confirmation
 expected_output: summary, changed_files, verification, next_step
 ```
+
+Until the personal gateway is approved and deployed, Codex App / Codex CLI may use the same packet shape manually.
 
 ## Codex Return Summary
 
@@ -165,7 +186,7 @@ Examples:
 
 ```text
 Add AI execution SOP
-Update Codex task packet format
+Update OpenClaw task packet format
 Document approval rules
 ```
 
@@ -179,7 +200,8 @@ Document approval rules
   - `logs`
   - `dev`
   - `monitor`
-- Treat `gateway` as a reserved inactive window unless a future personal gateway is explicitly approved.
+- Treat `gateway` as the future personal OpenClaw / Longxia gateway window; it remains inactive until explicitly approved.
+- Never run company `cc-connect` / Feishu in `gateway`.
 - Run long tasks inside the appropriate named window.
 - Do not leave long-running services in unnamed shells.
 

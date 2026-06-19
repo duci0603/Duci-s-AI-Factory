@@ -8,17 +8,18 @@ Core principle: humans make decisions; AI executes.
 
 ## Current Phase
 
-P4: retire company channel and continue with Codex-only personal AI factory.
+P4: OpenClaw / Longxia trial deployment preparation, restored to the V3.4.1 manual stage.
 
-The next planned phases are:
+The planned phases are:
 
 1. P0: Infrastructure acceptance
 2. P1: GitHub standardization
 3. P2: tmux standardization
 4. P3: AI execution rules
-5. P4: Company channel retirement and Codex-only workflow
-6. P5: NAS knowledge base
-7. P6: Daily operations SOP
+5. P4: OpenClaw / Longxia trial deployment
+6. P5: OpenClaw / Longxia formal deployment
+7. P6: NAS knowledge base
+8. P7: Daily operations SOP
 
 ## Execution Rules
 
@@ -46,33 +47,32 @@ Requires explicit user confirmation:
 - Kill processes or tmux sessions.
 - Reset, rebase, force-push, or rewrite Git history.
 - Install or upgrade dependencies, CLIs, services, launch agents, or background daemons.
+- Start, stop, or restart long-running services.
 - Change SSH, Tailscale, VNC, firewall, reverse proxy, public URL, or port exposure.
 - Handle secrets, API keys, tokens, passwords, private keys, or `.env` files.
 - Start paid API usage, auto-sending messages, scheduled jobs, or long-running services.
-- Change the core architecture or replace Codex/GitHub/NAS roles.
+- Change the core architecture or replace OpenClaw / Codex / GitHub / NAS roles.
 
 Never do:
 
 - Commit secrets or private credentials.
-- Expose SSH, VNC, retired company channels, future message gateways, or local dev ports to the public internet.
+- Expose SSH, VNC, personal gateways, retired company channels, or local dev ports to the public internet.
 - Revert or overwrite user changes without explicit instruction.
 - Claim a task is complete without verification or a stated limitation.
 
-## Codex-Only Personal AI Factory
+## OpenClaw And Codex Roles
 
-Codex receives the user request through Codex App or Codex CLI. Codex does the engineering work. GitHub records results. Mac mini stays online.
+OpenClaw / Longxia receives work. Codex does the engineering work. GitHub records results. Mac mini stays online.
 
-There is currently no personal message gateway in the official workflow. Do not use company `cc-connect`, Feishu, or old OpenClaw gateway language as an active execution path.
+OpenClaw / Longxia is the personal gateway and memory carrier, not the main engineering agent. It may receive messages, classify tasks, trigger scripts or `codex exec`, and return summaries after user-approved setup.
 
 Codex is the engineering execution layer. It should read project context, edit files, run commands, inspect results, update logs, and prepare Git commits.
 
-## Company Channel Retirement
+## Company Channel Boundary
 
-The company-side `cc-connect` / Feishu runtime is retired from the personal AI factory. Its old runtime, sessions, logs, and sync script were deleted after user confirmation and must not be used as a personal AI factory gateway.
+The company-side `cc-connect` / Feishu runtime is retired from the personal AI factory. Its old runtime, sessions, logs, and sync script were deleted after user confirmation and must not be restored or reused as the personal AI factory gateway.
 
-Codex belongs to the personal AI factory through Codex App, Codex CLI, tmux `ai-factory`, and GitHub.
-
-Read `docs/CODEX_PERSONAL_ENTRY.md` before changing personal entry-point behavior.
+A future personal OpenClaw / Longxia gateway must use separate personal configuration, credentials, logs, sessions, and approval rules.
 
 ## Recommended Workflow
 
@@ -115,7 +115,7 @@ Use this structure for milestone or deployment work:
 - Name project logs as `logs/YYYY-MM-DD.md`.
 - Name scripts with lowercase English and underscores, such as `check_environment.sh`, `run_codex_task.sh`, and `build_manual.py`.
 - Use `ai-factory` as the long-running tmux session name.
-- Use these tmux window names when practical: `control`, `codex`, `gateway`, `logs`, `dev`, `monitor`. The `gateway` window is reserved and inactive unless a future personal gateway is approved.
+- Use these tmux window names when practical: `control`, `codex`, `gateway`, `logs`, `dev`, `monitor`. The `gateway` window is for future personal OpenClaw / Longxia gateway work and remains inactive until explicitly approved.
 - Use lowercase hyphenated Git branch names, such as `p1-github-standardization` or `docs-naming-rules`.
 - Use short English imperative commit messages, such as `Add naming rules to manual`.
-- Name Codex engineering tasks as `YYYY-MM-DD_short-task-name`, without secrets, private account data, or long natural-language sentences.
+- Name OpenClaw / Codex engineering tasks as `YYYY-MM-DD_short-task-name`, without secrets, private account data, or long natural-language sentences.

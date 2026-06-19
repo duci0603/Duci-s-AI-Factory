@@ -16,8 +16,8 @@ ai-factory
 |---|---|---|
 | 0 | control | Project control, Git status, temporary commands, and phase checks. |
 | 1 | codex | Codex CLI execution for engineering work, file edits, and command runs. |
-| 2 | gateway | Reserved inactive window. Do not run company `cc-connect` or any message gateway here unless a future personal gateway is explicitly approved. |
-| 3 | logs | Codex and system service log watching. |
+| 2 | gateway | Future personal OpenClaw / Longxia gateway or message bridge window. It stays inactive until explicitly approved. Never run company `cc-connect` / Feishu here. |
+| 3 | logs | OpenClaw, Codex, Git, and system service log watching. |
 | 4 | dev | npm, Python, skill, script testing, and temporary development tasks. |
 | 5 | monitor | htop, disk, network, service status, and health checks. |
 
@@ -92,6 +92,6 @@ Use `ai-factory` as the default working session.
 ## Safety Rules
 
 - Do not kill sessions with running commands.
-- Do not run deployment, gateway, company-channel, or paid API tasks without explicit confirmation.
+- Do not run deployment, gateway, company-channel, paid API, or auto-send tasks without explicit confirmation.
 - Record tmux layout changes in `logs/YYYY-MM-DD.md`.
 - Keep long-running services in named windows, not unnamed shells.

@@ -4,7 +4,9 @@ Personal AI factory repository.
 
 ## Goal
 
-Build a long-running, remotely managed, auditable personal AI factory:
+Build a long-running, remotely managed, auditable personal AI factory.
+
+Infrastructure route:
 
 ```text
 MacBook Air
@@ -13,7 +15,21 @@ Tailscale / SSH
 ↓
 Mac mini
 ↓
+GitHub
+↓
+NAS
+```
+
+Target AI workflow:
+
+```text
+Personal message entry
+↓
+OpenClaw / Longxia gateway
+↓
 Codex App / Codex CLI / tmux
+↓
+Tool Chain
 ↓
 GitHub + NAS
 ```
@@ -22,7 +38,7 @@ Core principle: humans make decisions; AI executes.
 
 ## Current Phase
 
-P4: retire company channel and continue with Codex-only personal AI factory.
+P4: OpenClaw / Longxia trial deployment preparation, restored to the V3.4.1 manual stage.
 
 Completed foundation:
 
@@ -37,17 +53,20 @@ Completed foundation:
 
 - MacBook Air: cockpit and remote control surface
 - Mac mini: always-on AI factory host
+- OpenClaw / Longxia: future personal message gateway, task intake, scheduling, memory carrier, and handoff layer
 - Codex: engineering execution layer
 - GitHub: versioned project record
 - NAS: long-term knowledge and backup store
 
-## Personal Codex Entry
+## Architecture Boundary
 
-Codex belongs to the personal AI factory through Codex App, Codex CLI, tmux, and GitHub.
+The host architecture is `MacBook Air -> Tailscale/SSH -> Mac mini -> GitHub -> NAS`.
 
-The company-side `cc-connect` / Feishu channel has been retired from the personal AI factory. Its old runtime, sessions, logs, and sync script were deleted after user confirmation, and it must not be used as a personal entry point.
+OpenClaw / Longxia is not an extra host in that chain. It is the future personal gateway workflow layer that may run on the Mac mini and hand engineering tasks to Codex after approval.
 
-See `docs/CODEX_PERSONAL_ENTRY.md`.
+The retired company-side `cc-connect` / Feishu channel must not be restored or reused. Any future gateway work must use separate personal configuration, credentials, logs, sessions, and approval rules.
+
+See `docs/AI_FACTORY_MANUAL.md` and `docs/AI_EXECUTION_SOP.md`.
 
 ## Repository Layout
 
@@ -58,9 +77,9 @@ Duci-s-AI-Factory/
 ├── .gitignore
 ├── agents/
 ├── docs/
-│   └── AI_FACTORY_MANUAL.md
-│   └── AI_EXECUTION_SOP.md
-│   └── CODEX_PERSONAL_ENTRY.md
+│   ├── AI_FACTORY_MANUAL.md
+│   ├── AI_EXECUTION_SOP.md
+│   ├── CODEX_PERSONAL_ENTRY.md
 │   └── TMUX_SOP.md
 ├── logs/
 ├── prompts/
@@ -72,7 +91,7 @@ Duci-s-AI-Factory/
 ## Rules
 
 - Do not store secrets in Git.
-- Do not expose SSH, VNC, retired company channels, future message gateways, or local dev ports to the public internet.
+- Do not expose SSH, VNC, personal gateways, retired company channels, or local dev ports to the public internet.
 - Use Tailscale for private network access.
 - Run long tasks inside tmux.
 - Update logs and documentation at milestones.
