@@ -486,6 +486,73 @@ A5 只读健康检查结果（2026-06-23）：
 - 下一步如进入 A6，只允许做本地最小安全测试，不接真实消息入口，不运行真实工程任务，不配置模型 API key，除非再次获得用户明确确认。
 
 
+### A6 最小本地安全测试方案（待执行）
+
+目标：A6 只验证 OpenClaw gateway 在本地 loopback 模式下的最小请求 / 状态路径是否可安全测试；不验证模型能力，不执行真实工程任务，不接真实消息入口。
+
+前置条件：
+
+- A4 已通过，gateway 可手动启动并可干净关闭。
+- A5 已通过，当前 gateway 已停止，18789 端口无监听，channels 未配置，daemon / LaunchAgent 未安装。
+- 用户再次明确确认后，才允许进入 A6-Run。
+
+执行边界：
+
+- 只允许在 `tmux` 的 `gateway` 窗口中前台临时启动 gateway。
+- 只允许绑定 loopback：`127.0.0.1:18789` / `[::1]:18789`。
+- 只允许使用临时环境变量 `OPENCLAW_GATEWAY_TOKEN`，不把 token 写入手册、日志、Git、命令历史或聊天记录。
+- 不配置模型 API key。
+- 不接微信、Telegram、Slack、个人飞书等 channels。
+- 不安装 daemon / LaunchAgent。
+- 不公网暴露，不打开 Tailscale 暴露。
+- 不让 OpenClaw 自动调用 Codex 修改文件。
+- 不运行真实项目任务，不发送真实外部消息。
+
+建议命令草案（仅供 A6-Run 确认后执行）：
+
+```bash
+export OPENCLAW_GATEWAY_TOKEN="$(openssl rand -hex 32)"
+openclaw gateway run --bind loopback --port 18789 --auth token --tailscale off
+```
+
+另开窗口只读检查：
+
+```bash
+openclaw gateway status
+openclaw status
+lsof -nP -iTCP:18789 -sTCP:LISTEN
+openclaw channels status
+openclaw sessions list
+```
+
+最小安全测试范围：
+
+- 允许：gateway status / status / health / probe 类本地状态读取。
+- 允许：确认本地 loopback 连接、认证缺失或 SecretRef 未解析时的安全失败。
+- 不允许：`openclaw agent` 执行真实任务。
+- 不允许：`openclaw message send` 或任何外部消息发送。
+- 不允许：`openclaw channels add` 或登录任何 channel。
+- 不允许：`openclaw gateway install`、`gateway start`、daemon / LaunchAgent 操作。
+- 不允许：写入模型 API key 或触发付费模型调用。
+
+成功标准：
+
+- gateway 可手动前台启动。
+- 监听地址仍只限 loopback，未出现 `0.0.0.0` 公网监听。
+- status / gateway status / lsof 等本地状态可读，或以可解释的安全失败结束。
+- channels 仍未配置。
+- 未发送外部消息。
+- 未调用 Codex 修改文件。
+- 停止后 `lsof -nP -iTCP:18789 -sTCP:LISTEN` 无输出。
+- `launchctl list` 未出现 OpenClaw / cc-connect / claw 后台项。
+
+收尾要求：
+
+- A6-Run 完成后必须停止 gateway。
+- 必须记录命令、结果、失败原因、端口关闭状态和下一步。
+- 若出现任何超出边界的提示或风险，立即停止并回到人工确认。
+
+
 ## 第八章：OpenClaw 与 Codex 的角色分工
 
 OpenClaw 不替代 Codex。V3.4 明确将 OpenClaw/龙虾降级为 gateway 和记忆承载层：负责消息接入、定时任务、旧 agent 记忆、任务转发和结果回传。Codex 才是工程主执行层，负责进入仓库、读规则、改文件、跑命令、检查结果并记录日志。
