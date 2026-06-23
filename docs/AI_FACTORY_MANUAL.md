@@ -455,6 +455,37 @@ A5 进入条件：
 - 在模型 API key 未配置前，不做模型调用链路验收。
 
 
+A5 只读健康检查结果（2026-06-23）：
+
+已执行：
+
+- `openclaw status`。
+- `openclaw gateway status`。
+- `openclaw channels status`。
+- `openclaw sessions list`。
+- `lsof -nP -iTCP:18789 -sTCP:LISTEN`。
+- `launchctl list` 过滤 OpenClaw / cc-connect / claw 后台项。
+
+结果：
+
+- Gateway 状态：local loopback，目标 `ws://127.0.0.1:18789`，当前 unreachable / `ECONNREFUSED`，符合 A4 后已停止的预期。
+- Dashboard 地址仍为 `http://127.0.0.1:18789/`，但 gateway 未运行。
+- Tailscale exposure：off。
+- Gateway service：LaunchAgent not installed / not loaded。
+- Node service：LaunchAgent not installed。
+- `lsof -nP -iTCP:18789 -sTCP:LISTEN` 无输出，确认 18789 端口未监听。
+- `launchctl list` 未发现 OpenClaw / cc-connect / claw 相关后台项。
+- Channels：No channels configured。
+- Sessions：存在 1 个本地 direct session：`agent:main:main`，模型显示 `gpt-5.5`，runtime 为 OpenAI Codex；这是本地 OpenClaw session 记录，不代表接入了真实消息通道。
+- Gateway auth token 为 SecretRef，当前命令路径未设置 `OPENCLAW_GATEWAY_TOKEN`，因此 status 显示 degraded read-only config；未写入或暴露 token。
+
+限制与结论：
+
+- 在 Codex 沙盒内直接运行部分 OpenClaw CLI 状态命令时，会出现 SQLite 只读数据库 / chmod 权限限制；授权环境中重跑后可正常读取状态。
+- A5 通过：gateway 已停止、端口关闭、无后台服务、无 channels、无公网暴露、无公司 `cc-connect` 通道。
+- 下一步如进入 A6，只允许做本地最小安全测试，不接真实消息入口，不运行真实工程任务，不配置模型 API key，除非再次获得用户明确确认。
+
+
 ## 第八章：OpenClaw 与 Codex 的角色分工
 
 OpenClaw 不替代 Codex。V3.4 明确将 OpenClaw/龙虾降级为 gateway 和记忆承载层：负责消息接入、定时任务、旧 agent 记忆、任务转发和结果回传。Codex 才是工程主执行层，负责进入仓库、读规则、改文件、跑命令、检查结果并记录日志。
