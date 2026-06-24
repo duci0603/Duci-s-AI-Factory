@@ -7,7 +7,7 @@
 | 基础设施主线 | MacBook Air → Tailscale/SSH → Mac mini → GitHub → NAS |
 | AI 工作流主线 | 个人消息入口 → OpenClaw/龙虾 → Codex → Tool Chain → GitHub/NAS |
 | 核心分工 | 人负责决策，AI负责执行 |
-| 本版更新 | GitHub SSH修复、标准tmux会话、AI执行SOP、窗口分工、目录文件说明、P4官方资料核对、OpenClaw CLI安装记录、P4-A本地沙盒链路验证、A1-A6执行结果、A7收尾记录、P4-A收尾评估、P4-B dry-run方案与脚本 |
+| 本版更新 | GitHub SSH修复、标准tmux会话、AI执行SOP、窗口分工、目录文件说明、P4官方资料核对、OpenClaw CLI安装记录、P4-A本地沙盒链路验证、A1-A6执行结果、A7收尾记录、P4-A收尾评估、P4-B dry-run方案与脚本、P4-C桥接预览脚本 |
 | 更新日期 | 2026-06-24 |
 
 使用原则：不依赖聊天记录，不依赖模型记忆；所有关键状态、决策、经验、故障和下一步必须写入本手册或仓库中的同步手册。
@@ -166,7 +166,10 @@ Tool Chain
 - P4-A 收尾评估已完成：本地沙盒链路验证通过，可以关闭
 - P4-B dry-run 方案已写入：先定义 OpenClaw 到 Codex 的任务包、风险分级和拦截规则
 - P4-B 最小脚本已准备：`scripts/openclaw_codex_dry_run.py` 只生成 dry-run JSON，不执行 Codex、不启动 gateway、不发送消息
-- 后续仍需进行 P4-B 本地假任务验收；通过前不接真实消息入口、不配置模型/API授权、不安装 daemon
+- P4-B smoke verification 已完成：L0/L1/L2/L3 风险分级与脱敏行为符合预期
+- P4-C 本地桥接预览脚本已准备：`scripts/openclaw_codex_bridge_preview.py` 只生成未来 `codex exec` 命令预览，不执行
+- P4-C 初步预演已完成：L0/L1 生成命令预览且 `execution_allowed_now=false`，L2/L3 被 hold
+- 后续进入真实执行前仍不接真实消息入口、不配置模型/API授权、不安装 daemon
 - 补齐 NAS 长期记忆库路径与资料分类
 ### 后续路线
 
@@ -176,7 +179,7 @@ Tool Chain
 已完成：P2 tmux 标准化
 已完成：P3 AI 执行规范固化
 ↓
-下一步：P4-B dry-run 本地假任务验收
+下一步：P4-C 收尾评估 / P5-A 入口选择准备
 ↓
 OpenClaw 正式部署
 ↓
@@ -701,6 +704,61 @@ python3 scripts/openclaw_codex_dry_run.py --examples
 P4-B 完成后，才可以讨论 P4-C 本地脚本桥接；在 P4-C 前仍不接真实消息入口、不配置模型 API key、不安装 daemon。
 
 
+### P4-C 本地脚本桥接预览（2026-06-24）
+
+目标：在 P4-B 任务包和风险判定基础上，验证未来 OpenClaw 如何把允许进入预览的任务转换成 Codex CLI 命令草案。P4-C 只生成命令预览，不执行 `codex exec`。
+
+本阶段边界：
+
+- 不启动 OpenClaw gateway。
+- 不连接任何 channels。
+- 不配置或读取模型 API key。
+- 不安装 daemon / LaunchAgent。
+- 不发送外部消息。
+- 不调用真实 `codex exec`。
+- 不自动修改项目文件。
+
+脚本：
+
+- 路径：`scripts/openclaw_codex_bridge_preview.py`
+- 输入：`--request`、`--repo`、`--source-phase`、可选 `--task-id`。
+- 依赖：复用 `scripts/openclaw_codex_dry_run.py` 的风险分类与脱敏逻辑。
+- 输出：JSON bridge preview，包括 source packet、source decision、bridge decision、未来 Codex command preview 和 operator next step。
+
+桥接规则：
+
+| 风险 | P4-C 行为 |
+| --- | --- |
+| L0 | 生成 `codex exec --cd <repo> <prompt>` 命令预览；`execution_allowed_now=false`。 |
+| L1 | 生成命令预览，但标记真实执行需要已获确认的任务范围；`execution_allowed_now=false`。 |
+| L2 | hold，不生成 Codex 命令预览。 |
+| L3 | hold，不生成 Codex 命令预览。 |
+
+命令预览中的 Codex prompt 必须包含：
+
+- 读取 `README.md`、`AGENTS.md`、`docs/AI_FACTORY_MANUAL.md`、`docs/AI_EXECUTION_SOP.md`。
+- 不处理密钥、不暴露服务、不安装 daemon、不接 channels、不执行破坏性动作，除非用户明确确认。
+- 任务包字段：`task_id`、`phase`、`risk_level`、`approval_status`、`request`、`expected_output`。
+
+初步预演：
+
+```bash
+python3 -B scripts/openclaw_codex_bridge_preview.py --request "请总结当前项目状态和下一步，不修改文件。"
+python3 -B scripts/openclaw_codex_bridge_preview.py --request "请更新 docs/AI_FACTORY_MANUAL.md，记录 P4-C bridge preview 方案。"
+python3 -B scripts/openclaw_codex_bridge_preview.py --request "请配置 token: fake-secret-value 并启动 gateway。"
+python3 -B scripts/openclaw_codex_bridge_preview.py --request "请 rm -rf logs 并删除所有备份。"
+```
+
+预演结果：
+
+- 只读总结请求：L0，`bridge_decision=preview_ready`，生成命令预览，`execution_allowed_now=false`。
+- 文档更新请求：L1，`bridge_decision=preview_ready`，生成命令预览，但真实执行仍需确认任务范围。
+- 假 token-like + 启动 gateway 请求：L2，疑似密钥被脱敏，`bridge_decision=hold`，不生成命令预览。
+- 删除日志请求：L3，`bridge_decision=hold`，不生成命令预览。
+
+结论：P4-C 最小桥接预览通过。当前仍然没有真实执行链路，OpenClaw 不会调用 Codex；下一步可以做 P4-C 收尾评估，并准备 P5-A 入口选择策略。
+
+
 ## 第八章：OpenClaw 与 Codex 的角色分工
 
 OpenClaw 不替代 Codex。V3.4 明确将 OpenClaw/龙虾降级为 gateway 和记忆承载层：负责消息接入、定时任务、旧 agent 记忆、任务转发和结果回传。Codex 才是工程主执行层，负责进入仓库、读规则、改文件、跑命令、检查结果并记录日志。
@@ -1035,6 +1093,7 @@ Duci-s-AI-Factory/
 │   └── .gitkeep
 ├── scripts/
 │   ├── .gitkeep
+│   ├── openclaw_codex_bridge_preview.py
 │   └── openclaw_codex_dry_run.py
 ├── tools/
 │   └── .gitkeep
@@ -1068,6 +1127,7 @@ Duci-s-AI-Factory/
 | prompts/.gitkeep | 原有，保留 | 保留空的 prompts/ 目录。 |
 | scripts/ | 原有，保留 | 未来放环境检查、启动服务、调用 Codex 等可执行脚本。 |
 | scripts/.gitkeep | 原有，保留 | 保留 scripts/ 目录占位。 |
+| scripts/openclaw_codex_bridge_preview.py | P4-C 新增 | 本地桥接预览脚本；把 dry-run 任务包转换成未来 `codex exec` 命令预览，但不执行。 |
 | scripts/openclaw_codex_dry_run.py | P4-B 新增 | OpenClaw 到 Codex 转交合约 dry-run 脚本；只生成任务包和风险判定，不执行 Codex。 |
 | tools/ | P1 新增 | 未来放辅助工具或可复用小程序，例如手册生成、日志解析、仓库检查。 |
 | tools/.gitkeep | P1 新增 | 保留空的 tools/ 目录。 |
@@ -1379,9 +1439,21 @@ P4-B 方案：先定义任务包字段、风险分级和拦截规则；只做本
 
 脚本准备：新增 `scripts/openclaw_codex_dry_run.py`，用于根据请求生成 dry-run JSON、风险判定和 Codex 任务包预览；脚本不执行 Codex，不写项目文件，不读取或保存密钥。
 
-初步验证：只读总结请求返回 `L0 / dry_run_allowed`；文档更新请求返回 `L1 / approved_scope_only`；破坏性 `rm -rf logs` 请求返回 `L3 / blocked`；假 API key 输入被脱敏为 `[REDACTED_SECRET]` 并返回 `L2 / needs_confirmation`。
+初步验证：只读总结请求返回 `L0 / dry_run_allowed`；文档更新请求返回 `L1 / approved_scope_only`；破坏性 `rm -rf logs` 请求返回 `L3 / blocked`；假 token-like 输入被脱敏为 `[REDACTED_SECRET]` 并返回 `L2 / needs_confirmation`。
 
 下一步：判断当前 smoke verification 是否足够作为 P4-B 最小验收，或追加更多假任务；通过前不要进入真实消息入口、模型 API key、daemon 部署或自动 Codex 执行。
+
+### 项目日志 #016
+
+日期：2026-06-24。完成事项：完成 P4-C 本地脚本桥接预览；新增 `scripts/openclaw_codex_bridge_preview.py`，复用 P4-B dry-run 风险分类与脱敏逻辑，把允许预览的任务转换成未来 `codex exec` 命令草案。
+
+边界保持：脚本只输出 JSON；不启动 OpenClaw gateway，不接 channels，不配置模型 API key，不安装 daemon / LaunchAgent，不发送消息，不调用真实 `codex exec`，不自动修改项目文件。
+
+预演结果：L0 只读总结请求生成命令预览且 `execution_allowed_now=false`；L1 文档更新请求生成命令预览但仍要求真实执行前确认任务范围；L2 假 token-like + gateway 请求被脱敏并 hold；L3 删除日志请求被 hold。
+
+结论：P4-C 最小桥接预览通过。当前仍没有真实执行链路，OpenClaw 不会调用 Codex。
+
+下一步：做 P4-C 收尾评估，并准备 P5-A 入口选择策略；不要直接接入真实消息入口、模型 API key、daemon 或自动 Codex 执行。
 
 
 ## 第二十四章：未来章节规划
