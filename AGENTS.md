@@ -8,7 +8,7 @@ Core principle: humans make decisions; AI executes.
 
 ## Current Phase
 
-P4: OpenClaw / Longxia trial deployment preparation, restored to the V3.4.1 manual stage.
+P5-L: OpenClaw / Longxia personal Feishu gateway deployment closeout, Git review, runtime observation, and rollback SOP.
 
 The planned phases are:
 

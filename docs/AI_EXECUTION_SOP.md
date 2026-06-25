@@ -153,7 +153,7 @@ approval_status: approved | needs_confirmation
 expected_output: summary, changed_files, verification, next_step
 ```
 
-Until the personal gateway is approved and deployed, Codex App / Codex CLI may use the same packet shape manually.
+Current personal gateway route is approved only for personal Feishu DM allowlist intake and must keep the local Codex `xbai` relay model route unless the user separately approves a change.
 
 ## Codex Return Summary
 

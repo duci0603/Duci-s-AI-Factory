@@ -38,13 +38,17 @@ Core principle: humans make decisions; AI executes.
 
 ## Current Phase
 
-P4: OpenClaw / Longxia trial deployment preparation, restored to the V3.4.1 manual stage.
+P5-L: OpenClaw / Longxia personal Feishu gateway deployment closeout, Git review, runtime observation, and rollback SOP.
 
 Completed foundation:
 
 - P1 GitHub standardization
 - P2 tmux standardization
 - P3 AI execution rules
+- P4 OpenClaw trial deployment and local dry-run/bridge previews
+- P5 personal Feishu minimal real gateway setup
+- Local Codex API route aligned through the `xbai` relay/intermediary provider
+- OpenClaw gateway running as a macOS LaunchAgent
 - Default GitHub SSH authentication
 - Standard `ai-factory` tmux session
 - Company-side `cc-connect` / Feishu runtime retired and removed from the personal flow
@@ -80,6 +84,7 @@ Duci-s-AI-Factory/
 │   ├── AI_FACTORY_MANUAL.md
 │   ├── AI_EXECUTION_SOP.md
 │   ├── CODEX_PERSONAL_ENTRY.md
+│   ├── OPENCLAW_GATEWAY_SOP.md
 │   └── TMUX_SOP.md
 ├── logs/
 ├── prompts/
