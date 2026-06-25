@@ -8,7 +8,7 @@ Core principle: humans make decisions; AI executes.
 
 ## Current Phase
 
-P5-L: OpenClaw / Longxia personal Feishu gateway deployment closeout, Git review, runtime observation, and rollback SOP.
+P5-MNO is complete. Current operating mode: P7 daily operations trial. P6 NAS knowledge base is reserved but not connected yet.
 
 The planned phases are:
 

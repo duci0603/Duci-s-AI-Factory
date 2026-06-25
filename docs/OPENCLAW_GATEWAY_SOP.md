@@ -4,6 +4,8 @@
 
 This SOP records the daily operation, health checks, and rollback boundaries for the personal OpenClaw / Longxia gateway.
 
+For the broader daily operating rhythm, use `docs/DAILY_OPERATIONS_SOP.md`.
+
 Current approved shape:
 
 ```text

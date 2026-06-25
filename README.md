@@ -38,7 +38,9 @@ Core principle: humans make decisions; AI executes.
 
 ## Current Phase
 
-P5-L: OpenClaw / Longxia personal Feishu gateway deployment closeout, Git review, runtime observation, and rollback SOP.
+P5-MNO is complete. Current operating mode: P7 daily operations trial.
+
+P6 NAS knowledge base is reserved but not connected yet.
 
 Completed foundation:
 
@@ -47,6 +49,8 @@ Completed foundation:
 - P3 AI execution rules
 - P4 OpenClaw trial deployment and local dry-run/bridge previews
 - P5 personal Feishu minimal real gateway setup
+- P5-MNO combined acceptance: entry observation, task forwarding boundaries, and formal P5 closeout
+- Daily operations SOP
 - Local Codex API route aligned through the `xbai` relay/intermediary provider
 - OpenClaw gateway running as a macOS LaunchAgent
 - Default GitHub SSH authentication
@@ -84,6 +88,7 @@ Duci-s-AI-Factory/
 │   ├── AI_FACTORY_MANUAL.md
 │   ├── AI_EXECUTION_SOP.md
 │   ├── CODEX_PERSONAL_ENTRY.md
+│   ├── DAILY_OPERATIONS_SOP.md
 │   ├── OPENCLAW_GATEWAY_SOP.md
 │   └── TMUX_SOP.md
 ├── logs/

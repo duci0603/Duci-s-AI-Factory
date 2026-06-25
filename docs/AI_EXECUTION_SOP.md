@@ -47,9 +47,10 @@ Before every engineering task:
 2. Read `AGENTS.md`.
 3. Read `docs/AI_FACTORY_MANUAL.md`.
 4. Read the latest relevant file under `logs/`.
-5. Run `git status --short`.
-6. Identify user-owned or uncommitted changes.
-7. Confirm current phase, task, risk, and next step.
+5. Read `docs/DAILY_OPERATIONS_SOP.md` when the task is operational or deployment-related.
+6. Run `git status --short`.
+7. Identify user-owned or uncommitted changes.
+8. Confirm current phase, task, risk, and next step.
 
 ## Approval Levels
 
@@ -154,6 +155,8 @@ expected_output: summary, changed_files, verification, next_step
 ```
 
 Current personal gateway route is approved only for personal Feishu DM allowlist intake and must keep the local Codex `xbai` relay model route unless the user separately approves a change.
+
+P6 NAS knowledge base is reserved but not connected yet. Do not mount NAS paths, configure retrieval, or move memory assets into NAS without a separate P6 approval.
 
 ## Codex Return Summary
 
