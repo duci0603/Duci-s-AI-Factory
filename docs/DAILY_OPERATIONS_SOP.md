@@ -116,7 +116,7 @@ Every real task passed from Feishu / OpenClaw to Codex should use this packet sh
 task_id: YYYY-MM-DD_short-task-name
 source: personal-feishu-dm
 repo: /Users/duckulacissy/Duci-s-AI-Factory
-phase: P5-MNO or later
+phase: P7 or later
 risk_level: L0 | L1 | L2 | L3
 approval_status: approved | needs_confirmation
 request: <user request>
@@ -266,3 +266,14 @@ Daily operations are healthy when:
 - Working tree is clean or intentionally in progress.
 - No secrets are exposed.
 - Logs/manual are updated for milestone changes.
+
+## Acceptance Status
+
+P7 daily operations acceptance is complete as of 2026-06-25.
+
+Current normal operating mode:
+
+- Use this SOP for routine checks and low-risk observations.
+- Keep NAS reserved for P6; do not connect it until the user explicitly starts that phase.
+- Keep Feishu groups disabled and personal DM allowlist unchanged unless separately approved.
+- Keep the model route on `xbai/gpt-5.5` unless separately approved.

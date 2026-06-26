@@ -38,7 +38,7 @@ Core principle: humans make decisions; AI executes.
 
 ## Current Phase
 
-P5-MNO is complete. Current operating mode: P7 daily operations trial.
+P7 daily operations acceptance is complete. Current operating mode: normal daily operations.
 
 P6 NAS knowledge base is reserved but not connected yet.
 
@@ -50,7 +50,7 @@ Completed foundation:
 - P4 OpenClaw trial deployment and local dry-run/bridge previews
 - P5 personal Feishu minimal real gateway setup
 - P5-MNO combined acceptance: entry observation, task forwarding boundaries, and formal P5 closeout
-- Daily operations SOP
+- P7 daily operations SOP and final health acceptance
 - Local Codex API route aligned through the `xbai` relay/intermediary provider
 - OpenClaw gateway running as a macOS LaunchAgent
 - Default GitHub SSH authentication

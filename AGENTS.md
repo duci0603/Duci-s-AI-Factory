@@ -8,7 +8,7 @@ Core principle: humans make decisions; AI executes.
 
 ## Current Phase
 
-P5-MNO is complete. Current operating mode: P7 daily operations trial. P6 NAS knowledge base is reserved but not connected yet.
+P7 daily operations acceptance is complete. Current operating mode: normal daily operations. P6 NAS knowledge base is reserved but not connected yet.
 
 The planned phases are:
 
